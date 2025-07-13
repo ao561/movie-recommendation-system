@@ -4,6 +4,7 @@ import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import pickle
 
 movies = pd.read_csv('tmdb_5000_movies.csv')
 credits = pd.read_csv('tmdb_5000_credits.csv')
@@ -69,6 +70,12 @@ vectors = cv.fit_transform(df['tags']).toarray()
 # find cosine similarity for each vector with each other vector
 similarity_matrix = cosine_similarity(vectors)
 
+# save the processed DataFrame
+pickle.dump(df.to_dict(), open('movies_dict.pkl', 'wb'))
+
+# save the similarity matrix
+pickle.dump(similarity_matrix, open('similarity.pkl', 'wb'))
+
 # recommendation functions obtains and prints the best 5 matches
 def recommend(movie_title):
     movie_index = df[df['original_title'] == movie_title].index[0]
@@ -78,6 +85,7 @@ def recommend(movie_title):
     print(f"Recommendations for '{movie_title}':")
     for i in movies_list:
         print(df.iloc[i[0]].original_title)
+
 
 recommend('Batman Begins')
 
