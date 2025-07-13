@@ -30,8 +30,9 @@ def extract_director(text):
 # parsing data
 movies['genres'] = movies['genres'].apply(extract_name)
 movies['keywords'] = movies['keywords'].apply(extract_name)
-movies['cast'] = movies['cast'].apply(extract_name).apply(lambda x: x[:3])
+movies['cast'] = movies['cast'].apply(extract_name).apply(lambda x: x[:5])
 movies['crew'] = movies['crew'].apply(extract_director)
+movies['overview'] = movies['overview'].apply(lambda x: x.split())
 
 
 
