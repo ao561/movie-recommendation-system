@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import ast
+from nltk.stem.porter import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
 
 movies = pd.read_csv('tmdb_5000_movies.csv')
 credits = pd.read_csv('tmdb_5000_credits.csv')
@@ -47,6 +49,21 @@ movies['tags'] = movies['overview'] + movies['genres']+ movies['keywords'] + mov
 
 df = movies[['id', 'original_title', 'tags']]
 df['tags'] = df['tags'].apply(lambda x: " ".join(x).lower())
+
+ps = PorterStemmer()
+
+# stem tag words to prevent similar repeats when vectorising
+def stem(text):
+    out = []
+    for i in text.split():
+        out.append(ps.stem(i))
+    return " ".join(out)
+
+df['tags'] = df['tags'].apply(stem)
+
+# text vectorisation via the BoW model
+x = CountVectorizer(max_features = 5000, stop_words = 'english')
+vectors = x.fit_transform(df['tags']).toarray()
 
 
 
