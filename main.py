@@ -76,19 +76,6 @@ pickle.dump(df.to_dict(), open('movies_dict.pkl', 'wb'))
 # save the similarity matrix
 pickle.dump(similarity_matrix, open('similarity.pkl', 'wb'))
 
-# recommendation functions obtains and prints the best 5 matches
-def recommend(movie_title):
-    movie_index = df[df['original_title'] == movie_title].index[0]
-    score = similarity_matrix[movie_index]
-    movies_list = sorted(list(enumerate(score)), reverse = True, key = lambda x: x[1])[1:6]
-    
-    print(f"Recommendations for '{movie_title}':")
-    for i in movies_list:
-        print(df.iloc[i[0]].original_title)
-
-
-recommend('Batman Begins')
-
 
 
 
