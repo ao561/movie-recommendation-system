@@ -71,15 +71,15 @@ similarity_matrix = cosine_similarity(vectors)
 
 # recommendation functions obtains and prints the best 5 matches
 def recommend(movie_title):
-    movie_index = df[df['title'] == movie_title].index[0]
+    movie_index = df[df['original_title'] == movie_title].index[0]
     score = similarity_matrix[movie_index]
-    movies_list = sorted(list(enumerate(score)), reverse=True, key=lambda x: x[1])[1:6]
+    movies_list = sorted(list(enumerate(score)), reverse = True, key = lambda x: x[1])[1:6]
     
     print(f"Recommendations for '{movie_title}':")
     for i in movies_list:
-        print(df.iloc[i[0]].title)
+        print(df.iloc[i[0]].original_title)
 
-
+recommend('Batman Begins')
 
 
 
