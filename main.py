@@ -3,6 +3,7 @@ import pandas as pd
 import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 movies = pd.read_csv('tmdb_5000_movies.csv')
 credits = pd.read_csv('tmdb_5000_credits.csv')
@@ -47,12 +48,12 @@ movies['crew'] = movies['crew'].apply(remove_spaces)
 # tag creation
 movies['tags'] = movies['overview'] + movies['genres']+ movies['keywords'] + movies['cast'] + movies['crew']
 
-df = movies[['id', 'original_title', 'tags']]
+df = movies[['id', 'original_title', 'tags']].copy()
 df['tags'] = df['tags'].apply(lambda x: " ".join(x).lower())
 
+# stem tag words to prevent similar repeats when vectorising
 ps = PorterStemmer()
 
-# stem tag words to prevent similar repeats when vectorising
 def stem(text):
     out = []
     for i in text.split():
@@ -62,9 +63,21 @@ def stem(text):
 df['tags'] = df['tags'].apply(stem)
 
 # text vectorisation via the BoW model
-x = CountVectorizer(max_features = 5000, stop_words = 'english')
-vectors = x.fit_transform(df['tags']).toarray()
+cv = CountVectorizer(max_features = 5000, stop_words = 'english')
+vectors = cv.fit_transform(df['tags']).toarray()
 
+# find cosine similarity for each vector with each other vector
+similarity_matrix = cosine_similarity(vectors)
+
+# recommendation functions obtains and prints the best 5 matches
+def recommend(movie_title):
+    movie_index = df[df['title'] == movie_title].index[0]
+    score = similarity_matrix[movie_index]
+    movies_list = sorted(list(enumerate(score)), reverse=True, key=lambda x: x[1])[1:6]
+    
+    print(f"Recommendations for '{movie_title}':")
+    for i in movies_list:
+        print(df.iloc[i[0]].title)
 
 
 
