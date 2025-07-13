@@ -8,4 +8,7 @@
 __pycache__/
 
 # Datasets (optional, if they are too large for GitHub)
-*.csv 
+*.csv
+
+# Ignore cached model/data files
+*.pkl
