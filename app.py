@@ -38,15 +38,22 @@ def recommend(movie_title):
         score = similarity_matrix[movie_index]
         movies_list = sorted(list(enumerate(score)), reverse = True, key = lambda x: x[1])[1:6]
 
-        recommended_movies = []
-        recommended_movies_posters = []
+        recommended_movies_details = []
 
         for i in movies_list:
-            movie_id = df.iloc[i[0]].id # get movie id from df
-            recommended_movies.append(df.iloc[i[0]].original_title)
-            recommended_movies_posters.append(fetch_poster(movie_id)) # fetch poster from API using id 
-        return recommended_movies, recommended_movies_posters
-    
+            movie_details = df.iloc[i[0]]
+            movie_id = movie_details.id
+            details = {
+                'title': movie_details.original_title,
+                'poster': fetch_poster(movie_id),
+                'score': round(i[1] * 100, 2), # Convert score to percentage
+                'runtime': movie_details.runtime,
+                'release_date': movie_details.release_date,
+                'vote_average': movie_details.vote_average,
+                'overview': movie_details.overview
+            }
+            recommended_movies_details.append(details)
+        return recommended_movies_details
     except IndexError:
         return [], []
 
