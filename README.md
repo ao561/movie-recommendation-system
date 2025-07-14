@@ -17,7 +17,7 @@ The recommendation engine is built using the following pipeline:
 
 4. **Stemming:** Each word in the "tags" is reduced to its root form (e.g., "loving" becomes "love") using NLTK's PorterStemmer.
 
-5. **Text Vectorization using BoW:** Each movie's "tags" string is converted into a numerical vector using CountVectorizer (5000 features). This creates a vector space where each movie has a unique position.
+5. **Text Vectorization using TF-IDF:** Each movie's "tags" string is converted into a numerical vector using TfidfVectorizer (5000 features). This creates a vector space where each movie has a unique position.
 
 6. **Cosine Similarity:** The cosine similarity is calculated between all movie vectors. The resulting score (from 0 to 1) represents how similar the movies are. A score closer to 1 indicates a higher similarity.
 
