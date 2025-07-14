@@ -44,6 +44,7 @@ def recommend(movie_title):
             movie_details = df.iloc[i[0]]
             movie_id = movie_details.id
             details = {
+                'id': movie_id,
                 'title': movie_details.original_title,
                 'poster': fetch_poster(movie_id),
                 'score': round(i[1] * 100, 2), # Convert score to percentage
@@ -89,5 +90,6 @@ if st.button('Recommend'):
                     st.markdown(f"**Rating:** {movie['vote_average']}/10")
                     st.write("**Overview:**")
                     st.write(movie['overview'])
+                    st.markdown(f"[View on TMDB](https://www.themoviedb.org/movie/{movie['id']})")
         else:
             st.warning("Could not find recommendations for the selected movie.")
