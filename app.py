@@ -52,35 +52,35 @@ def recommend(movie_title):
 
 # web app interface
 
-# title
 st.title('Movie Recommender System')
+
+st.set_page_config(layout="wide")
 
 # drop down select box
 selected_movie_name = st.selectbox(
     'Select a movie to get recommendations:',
     df['original_title'].values)
 
+# button which when clicked shows recommendations
 if st.button('Recommend'):
     with st.spinner('Finding recommendations...'):
-        names, posters = recommend(selected_movie_name)
-
-        if names:
-            # Use st.columns to display the recommendations side-by-side
-            col1, col2, col3, col4, col5 = st.columns(5)
-            with col1:
-                st.text(names[0])
-                st.image(posters[0])
-            with col2:
-                st.text(names[1])
-                st.image(posters[1])
-            with col3:
-                st.text(names[2])
-                st.image(posters[2])
-            with col4:
-                st.text(names[3])
-                st.image(posters[3])
-            with col5:
-                st.text(names[4])
-                st.image(posters[4])
+        recommendations = recommend(selected_movie_name)
+        
+        if recommendations:
+            st.subheader("Here are your top 5 recommendations:")
+            # Display each recommendation vertically
+            for movie in recommendations:
+                st.write("---") # Divider line
+                col1, col2 = st.columns([1, 4]) # Poster column is 1/5th of the width
+                with col1:
+                    st.image(movie['poster'])
+                with col2:
+                    st.subheader(movie['title'])
+                    st.markdown(f"**Similarity Score:** {movie['score']}%")
+                    st.markdown(f"**Release Date:** {movie['release_date']}")
+                    st.markdown(f"**Runtime:** {int(movie['runtime'])} minutes")
+                    st.markdown(f"**Rating:** {movie['vote_average']}/10")
+                    st.write("**Overview:**")
+                    st.write(movie['overview'])
         else:
             st.warning("Could not find recommendations for the selected movie.")

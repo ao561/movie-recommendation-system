@@ -13,7 +13,7 @@ credits = pd.read_csv('tmdb_5000_credits.csv')
 movies = movies.merge(credits, left_on='id', right_on='movie_id')
 
 # relevant columns: genres, id, keywords, title, overview, cast, crew
-movies = movies[['original_title', 'id', 'genres', 'overview', 'keywords', 'cast', 'crew']]
+movies = movies[['original_title', 'id', 'genres', 'overview', 'keywords', 'cast', 'crew', 'runtime', 'release_date', 'vote_average']]
 movies.dropna(inplace = True)
 
 # functions to parse data
@@ -49,7 +49,7 @@ movies['crew'] = movies['crew'].apply(remove_spaces)
 # tag creation
 movies['tags'] = movies['overview'] + movies['genres']+ movies['keywords'] + movies['cast'] + movies['crew']
 
-df = movies[['id', 'original_title', 'tags']].copy()
+df = movies[['id', 'original_title', 'tags', 'overview', 'runtime', 'release_date', 'vote_average']].copy()
 df['tags'] = df['tags'].apply(lambda x: " ".join(x).lower())
 
 # stem tag words to prevent similar repeats when vectorising
