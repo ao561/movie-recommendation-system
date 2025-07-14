@@ -36,7 +36,7 @@ movies['genres'] = movies['genres'].apply(extract_name)
 movies['keywords'] = movies['keywords'].apply(extract_name)
 movies['cast'] = movies['cast'].apply(extract_name).apply(lambda x: x[:5])
 movies['crew'] = movies['crew'].apply(extract_director)
-movies['overview'] = movies['overview'].apply(lambda x: x.split())
+movies['tags_overview'] = movies['overview'].apply(lambda x: x.split())
 
 def remove_spaces(word_list):
     return [i.replace(" ", "") for i in word_list]
@@ -47,7 +47,7 @@ movies['cast'] = movies['cast'].apply(remove_spaces)
 movies['crew'] = movies['crew'].apply(remove_spaces)
 
 # tag creation
-movies['tags'] = movies['overview'] + movies['genres']+ movies['keywords'] + movies['cast'] + movies['crew']
+movies['tags'] = movies['tags_overview'] + movies['genres']+ movies['keywords'] + movies['cast'] + movies['crew']
 
 df = movies[['id', 'original_title', 'tags', 'overview', 'runtime', 'release_date', 'vote_average']].copy()
 df['tags'] = df['tags'].apply(lambda x: " ".join(x).lower())

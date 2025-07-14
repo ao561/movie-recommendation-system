@@ -55,7 +55,7 @@ def recommend(movie_title):
             recommended_movies_details.append(details)
         return recommended_movies_details
     except IndexError:
-        return [], []
+        return []
 
 # web app interface
 
