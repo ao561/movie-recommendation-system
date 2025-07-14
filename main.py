@@ -3,6 +3,7 @@ import pandas as pd
 import ast
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
 
@@ -65,7 +66,10 @@ df['tags'] = df['tags'].apply(stem)
 
 # text vectorisation via the BoW model
 cv = CountVectorizer(max_features = 5000, stop_words = 'english')
-vectors = cv.fit_transform(df['tags']).toarray()
+tfidf = TfidfVectorizer(max_features = 5000, stop_words = 'english')
+
+vectors = tfidf.fit_transform(df['tags']).toarray()
+vectors1 = cv.fit_transform(df['tags']).toarray()
 
 # find cosine similarity for each vector with each other vector
 similarity_matrix = cosine_similarity(vectors)
