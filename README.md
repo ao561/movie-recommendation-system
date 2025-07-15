@@ -22,3 +22,33 @@ The recommendation engine is built using the following pipeline:
 6. **Cosine Similarity:** The cosine similarity is calculated between all movie vectors. The resulting score (from 0 to 1) represents how similar the movies are. A score closer to 1 indicates a higher similarity.
 
 7. **Recommendation:** When you input a movie, the system finds its vector and returns the movies with the highest similarity scores.
+
+## ⚙️ How to Run
+### 1. Initial Setup
+First, clone the repository and set up the environment.
+``` bash
+# Clone the repository
+git clone https://github.com/ao561/movie-recommendation-system.git
+cd movie-recommendation-system
+
+# Create and activate a virtual environment
+python -m venv .venv
+# On Windows:
+.\.venv\Scripts\activate
+# On macOS/Linux:
+source .venv/bin/activate
+
+# Install the required packages
+pip install pandas numpy scikit-learn nltk streamlit requests
+```
+### 2. Processing the Data (First Time Only)
+Run the `main.py` script once to process all the data and create the cached files.
+``` bash
+python main.py
+```
+This will generate two files: `movies_dict.pkl` and `similarity.pkl`.
+### 3. Run the Web Application
+Launch the interactive front-end by running the following command in your terminal:
+``` bash
+streamlit run app.py
+```
