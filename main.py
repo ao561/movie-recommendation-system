@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import ast
 from nltk.stem.porter import PorterStemmer
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pickle
@@ -64,7 +63,7 @@ def stem(text):
 
 df['tags'] = df['tags'].apply(stem)
 
-# text vectorisation via the BoW model
+# text vectorisation via TF-IDF
 tfidf = TfidfVectorizer(max_features = 5000, stop_words = 'english')
 
 vectors = tfidf.fit_transform(df['tags']).toarray()

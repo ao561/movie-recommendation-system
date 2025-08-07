@@ -62,7 +62,7 @@ def recommend(movie_title):
 
 st.title('Movie Recommender System')
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout = "wide")
 
 # drop down select box
 selected_movie_name = st.selectbox(
