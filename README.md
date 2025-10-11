@@ -33,21 +33,41 @@ cd movie-recommendation-system
 
 # Create and activate a virtual environment
 python -m venv .venv
+
 # On Windows:
 .\.venv\Scripts\activate
+
 # On macOS/Linux:
 source .venv/bin/activate
 
 # Install the required packages
-pip install pandas numpy scikit-learn nltk streamlit requests
+pip install pandas numpy scikit-learn nltk streamlit requests python-dotenv
 ```
-### 2. Processing the Data (First Time Only)
+### 2. Secure API Key Configuration (MANDATORY)
+The application fetches movie posters using The Movie Database (TMDb) API, which requires an API key. This key must be loaded securely as an environment variable.
+
+1.  **Get Your Key:** Obtain a **v3 API key** from your [TMDb account settings](https://www.themoviedb.org/settings/api).
+
+2.  **Create `.env`:** Copy the contents of the provided template file (`.env.example`) into a new file named **`.env`** in the project root:
+
+    ```bash
+    cp .env.example .env
+    ```
+    *(Note: If you're on Windows and don't have the `cp` command, you can manually copy the file's content.)*
+
+3.  **Insert the Key:** Open the newly created **`.env`** file and paste your personal TMDb key as the value:
+
+    ```
+    # .env
+    TMDB_API_KEY="your-personal-tmdb-key-goes-here"
+    ```
+### 3. Processing the Data (First Time Only)
 Run the `main.py` script once to process all the data and create the cached files.
 ``` bash
 python main.py
 ```
 This will generate two files: `movies_dict.pkl` and `similarity.pkl`.
-### 3. Run the Web Application
+### 4. Run the Web Application
 Launch the interactive front-end by running the following command in your terminal:
 ``` bash
 streamlit run app.py
