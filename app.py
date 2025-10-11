@@ -2,6 +2,10 @@ import pickle
 import pandas as pd
 import streamlit as st
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # loads saved data from files
 try:
@@ -16,7 +20,11 @@ except FileNotFoundError:
 # fetches poster url from TMDB API
 def fetch_poster(movie_id):
     try:
-        api_key = "24e92c3fdd4094bdf0b12f57aa752e9e"
+        api_key = os.getenv("TMDB_API_KEY")
+        if not api_key:
+            st.error("TMDB_API_KEY environment variable not set.")
+            return "https://placehold.co/500x750.png?text=API+Key+Missing"
+        
         url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
         response = requests.get(url)
         response.raise_for_status()  # Raises an HTTPError for bad responses (4xx or 5xx)
